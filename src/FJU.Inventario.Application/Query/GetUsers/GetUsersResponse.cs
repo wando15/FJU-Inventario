@@ -16,15 +16,7 @@ namespace FJU.Inventario.Application.Query.GetUsers
                     IsSuccess = true,
                     Message = "These are the users found",
                     StatusCode = HttpStatusCode.OK,
-                    Result = input.Select(x => new UserEntity
-                    {
-                        Id = x.Id,
-                        UserName = x.UserName,
-                        Name = x.Name,
-                        IsCoordinator = x.IsCoordinator,
-                        ProjectId = x.ProjectId,
-                        IsActive = x.IsActive
-                    }).ToList()
+                    Result = input
                 }
             };
         }

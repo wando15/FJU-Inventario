@@ -1,13 +1,18 @@
-﻿using FJU.Inventario.Application.Commands.CreateProject;
+﻿using FJU.Inventario.Application.Commands.CreateProduct;
+using FJU.Inventario.Application.Commands.CreateProject;
 using FJU.Inventario.Application.Commands.CreateUser;
 using FJU.Inventario.Application.Commands.ForgotPassword;
 using FJU.Inventario.Application.Commands.Login;
+using FJU.Inventario.Application.Commands.RemoveProduct;
 using FJU.Inventario.Application.Commands.RemoveProject;
 using FJU.Inventario.Application.Commands.RemoveUser;
+using FJU.Inventario.Application.Commands.UpdateProduct;
 using FJU.Inventario.Application.Commands.UpdateProject;
 using FJU.Inventario.Application.Commands.UpdateUser;
 using FJU.Inventario.Application.Common.EncriptedPassword;
 using FJU.Inventario.Application.Common.ValidateCoordenate;
+using FJU.Inventario.Application.Query.GetProductById;
+using FJU.Inventario.Application.Query.GetProducts;
 using FJU.Inventario.Application.Query.GetProjectById;
 using FJU.Inventario.Application.Query.GetProjects;
 using FJU.Inventario.Application.Query.GetUserById;
@@ -33,6 +38,11 @@ namespace FJU.Inventario.CrossCutting.DependenceInjection
             services.AddSingleton<IRequestHandler<RemoveProjectParams, RemoveProjectResponse>, RemoveProjectCommand>();
             services.AddSingleton<IRequestHandler<GetProjectByIdParams, GetProjectByIdResponse>, GetProjectByIdQuery>();
             services.AddSingleton<IRequestHandler<GetProjectsRequest, GetProjectsResponse>, GetProjectsQuery>();
+            services.AddSingleton<IRequestHandler<CreateProductRequest, CreateProductResponse>, CreateProductCommand>();
+            services.AddSingleton<IRequestHandler<UpdateProductRequest, UpdateProductResponse>, UpdateProductCommand>();
+            services.AddSingleton<IRequestHandler<RemoveProductParams, RemoveProductResponse>, RemoveProductCommand>();
+            services.AddSingleton<IRequestHandler<GetProductByIdParams, GetProductByIdResponse>, GetProductByIdQuery>();
+            services.AddSingleton<IRequestHandler<GetProductsRequest, GetProductsResponse>, GetProductsQuery>();
 
             services.AddSingleton<IEncryptionPassword, EncryptionPassword>();
             services.AddSingleton<IVerifyUserCoordenate, VerifyUserCoordenate>();

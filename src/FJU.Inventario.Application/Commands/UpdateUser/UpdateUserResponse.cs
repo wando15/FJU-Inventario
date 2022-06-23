@@ -21,15 +21,7 @@ namespace FJU.Inventario.Application.Commands.UpdateUser
                     IsSuccess = true,
                     Message = "Updated User Successfoly",
                     StatusCode = HttpStatusCode.OK,
-                    Result = new UserEntity
-                    {
-                        Id = input.Id,
-                        UserName = input.UserName,
-                        Name = input.Name,
-                        IsCoordinator = input.IsCoordinator,
-                        ProjectId = input.ProjectId,
-                        IsActive = input.IsActive
-                    }
+                    Result = input
                 }
             };
         }

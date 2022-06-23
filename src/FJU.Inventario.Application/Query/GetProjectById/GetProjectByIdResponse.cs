@@ -16,12 +16,7 @@ namespace FJU.Inventario.Application.Query.GetProjectById
                     IsSuccess = true,
                     Message = "these is project found",
                     StatusCode = HttpStatusCode.OK,
-                    Result = new ProjectEntity
-                    {
-                        Id = input.Id,
-                        Name = input.Name,
-                        CoordinatorId = input.CoordinatorId
-                    }
+                    Result = input
                 }
             };
         }

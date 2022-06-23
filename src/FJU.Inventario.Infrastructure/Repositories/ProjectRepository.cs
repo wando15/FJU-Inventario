@@ -40,10 +40,9 @@ namespace FJU.Inventario.Infrastructure.Repositories
         public async Task UpdateAsync(string id, ProjectEntity project) =>
             await ProjectCollection.ReplaceOneAsync(x => x.Id == id, project);
 
-        public async Task RemoveAsync(ProjectEntity project)
-        {
+        public async Task RemoveAsync(ProjectEntity project) =>
             await ProjectCollection.DeleteOneAsync(x => x.Id == project.Id);
-        }
+
         #endregion
     }
 }

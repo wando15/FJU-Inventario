@@ -16,15 +16,7 @@ namespace FJU.Inventario.Application.Commands.CreateUser
                     IsSuccess = true,
                     Message = "Create User Successfoly",
                     StatusCode = HttpStatusCode.Created,
-                    Result = new UserEntity
-                    {
-                        Id = input.Id,
-                        UserName = input.UserName,
-                        Name = input.Name,
-                        IsCoordinator = input.IsCoordinator,
-                        ProjectId = input.ProjectId,
-                        IsActive = input.IsActive
-                    }
+                    Result = input
                 }
             };
         }

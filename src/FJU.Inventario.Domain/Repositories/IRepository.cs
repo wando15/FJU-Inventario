@@ -1,18 +1,19 @@
-﻿using MongoDB.Bson;
+﻿using FJU.Inventario.Domain.Entities;
+using MongoDB.Bson;
 
 namespace FJU.Inventario.Domain.Repositories
 {
-    public interface IRepository<TEntity>
+    public interface IRepository<T> where T : TEntity
     {
-        Task<IList<TEntity>> GetAsync();
-        Task<TEntity> GetLastAsync();
+        Task<IList<T>> GetAsync();
+        Task<T> GetLastAsync();
 
-        Task<TEntity> GetAsync(string id);
+        Task<T> GetAsync(string id);
 
-        Task<TEntity> CreateAsync(TEntity newT);
+        Task<T> CreateAsync(T entity);
 
-        Task UpdateAsync(string id, TEntity updatedT);
+        Task UpdateAsync(string id, T entity);
 
-        Task RemoveAsync(TEntity updatedT);
+        Task RemoveAsync(T entity);
     }
 }

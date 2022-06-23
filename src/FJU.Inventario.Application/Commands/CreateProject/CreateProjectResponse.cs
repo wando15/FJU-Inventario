@@ -16,12 +16,7 @@ namespace FJU.Inventario.Application.Commands.CreateProject
                     IsSuccess = true,
                     Message = "Create Project Successfoly",
                     StatusCode = HttpStatusCode.Created,
-                    Result = new ProjectEntity
-                    {
-                        CoordinatorId = input.CoordinatorId,
-                        Name = input.Name,
-                        Description = input.Description
-                    }
+                    Result = input
                 }
             };
         }
