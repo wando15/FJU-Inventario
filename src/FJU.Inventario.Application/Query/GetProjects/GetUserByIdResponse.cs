@@ -17,6 +17,7 @@ namespace FJU.Inventario.Application.Query.GetProjects
                     Message = "these is projects found",
                     StatusCode = HttpStatusCode.OK,
                     Result = input
+                }
             };
         }
     }
