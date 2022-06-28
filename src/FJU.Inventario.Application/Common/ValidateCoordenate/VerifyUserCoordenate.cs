@@ -6,10 +6,11 @@ namespace FJU.Inventario.Application.Common.ValidateCoordenate
     public class VerifyUserCoordenate : IVerifyUserCoordenate
     {
         #region Properties
-        public ILogger<VerifyUserCoordenate> Logger { get; set; }
-        public IUserRepository UserRepository { get; set; }
+        private ILogger<VerifyUserCoordenate> Logger { get; }
+        private IUserRepository UserRepository { get; }
 
         #endregion
+
         #region Constructor
         public VerifyUserCoordenate(
             ILogger<VerifyUserCoordenate> logger,

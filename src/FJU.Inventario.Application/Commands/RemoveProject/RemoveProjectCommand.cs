@@ -9,8 +9,8 @@ namespace FJU.Inventario.Application.Commands.RemoveProject
     public class RemoveProjectCommand : IRequestHandler<RemoveProjectParams, RemoveProjectResponse>
     { 
         #region Properties
-        public ILogger<RemoveProjectCommand> Logger { get; set; }
-        public IUserRepository Repository { get; set; }
+        private ILogger<RemoveProjectCommand> Logger { get; }
+        private IUserRepository Repository { get; }
         #endregion
 
         #region Constructor

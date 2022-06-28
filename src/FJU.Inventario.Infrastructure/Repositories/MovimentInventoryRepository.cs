@@ -20,7 +20,7 @@ namespace FJU.Inventario.Infrastructure.Repositories
 
         #region Implementation Repository
         public async Task<IList<MovimentInventoryEntity>> GetAsync() =>
-       await MovementInventoryCollection.Find(_ => true).ToListAsync();
+            await MovementInventoryCollection.Find(_ => true).ToListAsync();
 
         public async Task<MovimentInventoryEntity> GetAsync(string id) =>
             await MovementInventoryCollection.Find(x => x.Id == id).FirstOrDefaultAsync();

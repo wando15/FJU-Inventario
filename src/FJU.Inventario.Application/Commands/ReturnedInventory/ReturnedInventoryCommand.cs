@@ -9,9 +9,9 @@ namespace FJU.Inventario.Application.Commands.ReturnedInventory
     public class ReturnedInventoryCommand : IRequestHandler<ReturnedInventoryRequest, ReturnedInventoryResponse>
     {
         #region Properties
-        public ILogger<ReturnedInventoryCommand> Logger { get; set; }
-        public IMovementInventoryRepository MovementInventoryRepository { get; set; }
-        public IProductRepository ProductRepository { get; set; }
+        private ILogger<ReturnedInventoryCommand> Logger { get; }
+        private IMovementInventoryRepository MovementInventoryRepository { get; }
+        private IProductRepository ProductRepository { get; }
         #endregion
 
         #region Constructor

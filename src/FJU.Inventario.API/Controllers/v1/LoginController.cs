@@ -10,7 +10,6 @@ namespace FJU.Inventario.API.Controllers.v1
     [Produces("application/json")]
     public class LoginController : Controller
     {
-
         private ILogger<LoginController> Logger { get; set; }
         private IMediator Mediator { get; set; }
 

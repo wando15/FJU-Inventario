@@ -8,8 +8,8 @@ namespace FJU.Inventario.Application.Commands.RemoveUser
     public class RemoveUserCommand : IRequestHandler<RemoveUserParams, RemoveUserResponse>
     {
         #region Properties
-        public ILogger<RemoveUserCommand> Logger { get; set; }
-        public IUserRepository Repository { get; set; }
+        private ILogger<RemoveUserCommand> Logger { get; }
+        private IUserRepository Repository { get; }
         #endregion
 
         #region Constructor

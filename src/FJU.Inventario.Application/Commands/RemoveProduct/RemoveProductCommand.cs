@@ -8,8 +8,8 @@ namespace FJU.Inventario.Application.Commands.RemoveProduct
     public class RemoveProductCommand : IRequestHandler<RemoveProductParams, RemoveProductResponse>
     {
         #region Properties
-        public ILogger<RemoveProductCommand> Logger { get; set; }
-        public IUserRepository Repository { get; set; }
+        private ILogger<RemoveProductCommand> Logger { get; }
+        private IUserRepository Repository { get; }
         #endregion
 
         #region Constructor

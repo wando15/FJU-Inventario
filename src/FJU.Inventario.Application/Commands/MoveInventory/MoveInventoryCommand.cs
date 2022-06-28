@@ -10,17 +10,17 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
     public class MoveInventoryCommand : IRequestHandler<MoveInventoryRequest, MoveInventoryResponse>
     {
         #region Properties
-        public ILogger<MoveInventoryCommand> Logger { get; set; }
-        public IMovementInventoryRepository MovementInventoryRepository { get; set; }
-        public IProductRepository ProductRepository { get; set; }
-        public IHttpContextAccessor Context { get; set; }
+        private ILogger<MoveInventoryCommand> Logger { get; }
+        private IMovementInventoryRepository MovementInventoryRepository { get; }
+        private IProductRepository ProductRepository { get; }
+        private IHttpContextAccessor Context { get; }
         #endregion
 
         #region Constructor
         public MoveInventoryCommand(
-            ILogger<MoveInventoryCommand> logger, 
-            IMovementInventoryRepository movementInventoryRepository, 
-            IProductRepository productRepository, 
+            ILogger<MoveInventoryCommand> logger,
+            IMovementInventoryRepository movementInventoryRepository,
+            IProductRepository productRepository,
             IHttpContextAccessor context)
         {
             Logger = logger;
@@ -38,7 +38,7 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
                 var userId = Context.HttpContext.Request.Headers["UserId"].ToString();
                 var product = await ProductRepository.GetAsync(request.ProductId);
 
-                if(product == null)
+                if (product == null)
                 {
                     throw new NotFoundException("product Not Found");
                 }

@@ -10,8 +10,8 @@ namespace FJU.Inventario.Application.Commands.UpdateUser
     public class UpdateUserCommand : IRequestHandler<UpdateUserRequest, UpdateUserResponse>
     {
         #region Properties
-        public ILogger<CreateUserCommand> Logger { get; set; }
-        public IUserRepository UserRepository { get; set; }
+        private ILogger<CreateUserCommand> Logger { get; }
+        private IUserRepository UserRepository { get; }
         #endregion
 
         #region Constructor
