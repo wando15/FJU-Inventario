@@ -16,7 +16,7 @@ namespace FJU.Inventario.Application.Query.GetProductById
                     IsSuccess = true,
                     Message = "these is product found",
                     StatusCode = HttpStatusCode.OK,
-                    Result = input
+                    Result = input,
                 }
             };
         }

@@ -5,13 +5,13 @@ namespace FJU.Inventario.Application.Query.GetProjects
 {
     public class GetProjectsResponse
     {
-        public BaseResult<List<ProjectEntity>>? Result { get; set; }
+        public BaseResult<IList<ProjectEntity>>? Result { get; set; }
 
         public static explicit operator GetProjectsResponse(List<ProjectEntity> input)
         {
             return new GetProjectsResponse
             {
-                Result = new BaseResult<List<ProjectEntity>>()
+                Result = new BaseResult<IList<ProjectEntity>>()
                 {
                     IsSuccess = true,
                     Message = "these is projects found",

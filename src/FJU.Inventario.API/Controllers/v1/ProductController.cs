@@ -2,6 +2,7 @@
 using FJU.Inventario.Application.Commands.RemoveProduct;
 using FJU.Inventario.Application.Commands.UpdateProduct;
 using FJU.Inventario.Application.Query.GetProductById;
+using FJU.Inventario.Application.Query.GetProductByProjectId;
 using FJU.Inventario.Application.Query.GetProducts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -63,17 +64,35 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <summary>
         /// Get Product By Id
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="param"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(GetProductByIdResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetById([FromRoute] GetProductByIdParams request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById([FromRoute] GetProductByIdParams param, CancellationToken cancellationToken)
         {
-            Logger.LogInformation($"Send GetProduct by Id: {request.Id}");
-            var result = await Mediator.Send(request, cancellationToken);
+            Logger.LogInformation($"Send GetProduct by Id: {param.Id}");
+            var result = await Mediator.Send(param, cancellationToken);
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get Product By ProjectId
+        /// </summary>
+        /// <param name="param"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("project/{id}")]
+        [ProducesResponseType(typeof(GetProductByProjectIdResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetByProjectId([FromRoute] GetProductByProjectIdParams param, CancellationToken cancellationToken)
+        {
+            Logger.LogInformation($"Send GetProduct by Id: {param.Id}");
+            var result = await Mediator.Send(param, cancellationToken);
 
             return Ok(result);
         }
@@ -81,17 +100,17 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <summary>
         /// Delete Product By Id
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="param"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(RemoveProductResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Delete([FromRoute] RemoveProductParams request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromRoute] RemoveProductParams param, CancellationToken cancellationToken)
         {
-            Logger.LogInformation($"Send DeleteProduct by Id: {request.Id}");
-            var result = await Mediator.Send(request, cancellationToken);
+            Logger.LogInformation($"Send DeleteProduct by Id: {param.Id}");
+            var result = await Mediator.Send(param, cancellationToken);
 
             return Ok(result);
         }

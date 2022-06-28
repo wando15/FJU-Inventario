@@ -6,7 +6,6 @@ namespace FJU.Inventario.Domain.Repositories
     public interface IRepository<T> where T : TEntity
     {
         Task<IList<T>> GetAsync();
-        Task<T> GetLastAsync();
 
         Task<T> GetAsync(string id);
 

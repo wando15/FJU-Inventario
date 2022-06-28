@@ -8,6 +8,7 @@ namespace FJU.Inventario.Application.Commands.CreateProduct
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? ProjectId { get; set; }
+        public int Ammount { get; set; }
 
         public static explicit operator ProductEntity(CreateProductRequest input)
         {
@@ -15,7 +16,10 @@ namespace FJU.Inventario.Application.Commands.CreateProduct
             {
                 Name = input.Name,
                 Description = input.Description,
-                ProjectId = input.ProjectId
+                ProjectId = input.ProjectId,
+                Ammount = input.Ammount,
+                Available = input.Ammount,
+                Unavailable = 0
             };
         }
     }

@@ -9,6 +9,8 @@ namespace FJU.Inventario.Application.Commands.UpdateProduct
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? ProjectId { get; set; }
+        public int Ammount { get; set; }
+        public int Available { get; set; }
 
         public static explicit operator ProductEntity(UpdateProductRequest input)
         {
@@ -16,7 +18,10 @@ namespace FJU.Inventario.Application.Commands.UpdateProduct
             {
                 Name = input.Name,
                 Description = input.Description,
-                ProjectId = input.ProjectId
+                ProjectId = input.ProjectId,
+                Ammount = input.Ammount,
+                Available = input.Available
+                
             };
         }
     }

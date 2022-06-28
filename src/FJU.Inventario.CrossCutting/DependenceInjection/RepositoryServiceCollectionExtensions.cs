@@ -11,6 +11,7 @@ namespace FJU.Inventario.CrossCutting.DependenceInjection
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IProjectRepository, ProjectRepository>();
             services.AddSingleton<IProductRepository, ProductRepository>();
+            services.AddSingleton<IMovementInventoryRepository, MovementInventoryRepository>();
             return services;
         }
     }

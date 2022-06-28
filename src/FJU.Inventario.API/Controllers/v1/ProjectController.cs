@@ -70,10 +70,10 @@ namespace FJU.Inventario.API.Controllers.v1
         [ProducesResponseType(typeof(GetProjectByIdResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetById([FromRoute] GetProjectByIdParams request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById([FromRoute] GetProjectByIdParams param, CancellationToken cancellationToken)
         {
-            Logger.LogInformation($"Send GetProject by Id: {request.Id}");
-            var result = await Mediator.Send(request, cancellationToken);
+            Logger.LogInformation($"Send GetProject by Id: {param.Id}");
+            var result = await Mediator.Send(param, cancellationToken);
 
             return Ok(result);
         }
@@ -88,10 +88,10 @@ namespace FJU.Inventario.API.Controllers.v1
         [ProducesResponseType(typeof(RemoveProjectResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Delete([FromRoute] RemoveProjectParams request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromRoute] RemoveProjectParams param, CancellationToken cancellationToken)
         {
-            Logger.LogInformation($"Send DeleteProject by Id: {request.Id}");
-            var result = await Mediator.Send(request, cancellationToken);
+            Logger.LogInformation($"Send DeleteProject by Id: {param.Id}");
+            var result = await Mediator.Send(param, cancellationToken);
 
             return Ok(result);
         }

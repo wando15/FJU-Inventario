@@ -28,6 +28,9 @@ namespace FJU.Inventario.Infrastructure.Repositories
         public async Task<ProductEntity> GetAsync(string id) =>
             await ProductCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
+        public async Task<IList<ProductEntity>> GetProductByProjectIdAsync(string id) =>
+            await ProductCollection.Find(x => x.ProjectId == id).ToListAsync();
+
         public async Task<ProductEntity> GetProductNameAsync(string name) =>
             await ProductCollection.Find(x => x.Name == name).FirstOrDefaultAsync();
 

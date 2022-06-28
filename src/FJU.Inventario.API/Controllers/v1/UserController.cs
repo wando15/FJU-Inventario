@@ -64,17 +64,17 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <summary>
         /// Get User By Id
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="param"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(GetUserByIdResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetById([FromRoute] GetUserByIdParams request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetById([FromRoute] GetUserByIdParams param, CancellationToken cancellationToken)
         {
-            Logger.LogInformation($"Send GetUser by Id: {request.Id}");
-            var result = await Mediator.Send(request, cancellationToken);
+            Logger.LogInformation($"Send GetUser by Id: {param.Id}");
+            var result = await Mediator.Send(param, cancellationToken);
 
             return Ok(result);
         }
@@ -82,17 +82,17 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <summary>
         /// Delete User By Id
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="param"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(RemoveUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Delete([FromRoute] RemoveUserParams request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete([FromRoute] RemoveUserParams param, CancellationToken cancellationToken)
         {
-            Logger.LogInformation($"Send DeleteUser by Id: {request.Id}");
-            var result = await Mediator.Send(request, cancellationToken);
+            Logger.LogInformation($"Send DeleteUser by Id: {param.Id}");
+            var result = await Mediator.Send(param, cancellationToken);
 
             return Ok(result);
         }

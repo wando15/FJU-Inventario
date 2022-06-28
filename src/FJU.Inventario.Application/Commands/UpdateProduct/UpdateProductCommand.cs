@@ -30,10 +30,13 @@ namespace FJU.Inventario.Application.Commands.UpdateProduct
             {
                 var currentProduct = await Repository.GetProductNameAsync(request.Name);
 
-                if (currentProduct != null)
+                if (currentProduct.Id != request.Id || currentProduct != null)
                 {
                     throw new UnprocessableEntityException("Product already existis");
                 }
+
+                currentProduct =await Repository.GetAsync(request.Id);
+                request.Available = currentProduct.Ammount - currentProduct.Unavailable;
 
                 await Repository.UpdateAsync(request.Id, (ProductEntity)request);
 
