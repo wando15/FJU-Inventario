@@ -20,6 +20,7 @@ namespace FJU.Inventario.Application.Commands.UpdateUser
         {
             return new UserEntity
             {
+                Id = input.Id,
                 UserName = input.UserName,
                 Name = input.Name,
                 Password = input.Password,

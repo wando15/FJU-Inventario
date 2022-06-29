@@ -16,7 +16,7 @@ namespace FJU.Inventario.Application.Query.GetUserById
                     IsSuccess = true,
                     Message = "these is user found",
                     StatusCode = HttpStatusCode.OK,
-                    Result = input
+                    Data = input
                 }
             };
         }

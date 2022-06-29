@@ -1,5 +1,4 @@
 ﻿using CryptSharp;
-using System.Text;
 
 namespace FJU.Inventario.Application.Common.EncriptedPassword
 {
@@ -7,7 +6,7 @@ namespace FJU.Inventario.Application.Common.EncriptedPassword
     {
         public Task<string> Encrypt(string password)
         {
-                return Task.FromResult(Crypter.MD5.Crypt(password));
+            return Task.FromResult(Crypter.MD5.Crypt(password));
         }
 
         public Task<bool> Compare(string password, string hash)

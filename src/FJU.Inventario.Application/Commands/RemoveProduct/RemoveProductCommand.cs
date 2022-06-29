@@ -29,9 +29,9 @@ namespace FJU.Inventario.Application.Commands.RemoveProduct
             {
                 var user = await Repository.GetAsync(request?.Id);
 
-                if (user != null)
+                if (user is null)
                 {
-                    throw new NotFoundException("User already exists");
+                    throw new NotFoundException("Product not found");
                 }
 
                 await Repository.RemoveAsync(user);

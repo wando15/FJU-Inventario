@@ -56,7 +56,7 @@ namespace FJU.Inventario.CrossCutting.Middleware.ExceptionHandler
                 var json = new
                 {
                     context.Response.StatusCode,
-                    Message = $"An error occurred whilst processing your request: {error?.Message}",
+                    Message = error?.Message,
                     Detailed = error
                 };
 

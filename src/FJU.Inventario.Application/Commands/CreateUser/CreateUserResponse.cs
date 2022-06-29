@@ -16,7 +16,7 @@ namespace FJU.Inventario.Application.Commands.CreateUser
                     IsSuccess = true,
                     Message = "Create User Successfoly",
                     StatusCode = HttpStatusCode.Created,
-                    Result = input
+                    Data = input
                 }
             };
         }

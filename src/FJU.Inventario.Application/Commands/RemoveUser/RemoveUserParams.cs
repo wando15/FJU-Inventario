@@ -1,5 +1,4 @@
-﻿using FJU.Inventario.Domain.Entities;
-using MediatR;
+﻿using MediatR;
 
 namespace FJU.Inventario.Application.Commands.RemoveUser
 {

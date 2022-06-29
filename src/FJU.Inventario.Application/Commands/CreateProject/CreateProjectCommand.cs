@@ -39,7 +39,7 @@ namespace FJU.Inventario.Application.Commands.CreateProject
                     throw new UnprocessableEntityException("Project already exists");
                 }
 
-                if(await VerifyUserCoordenate.IsCoordenate(request.CoordinatorId))
+                if (!await VerifyUserCoordenate.IsCoordenate(request.CoordinatorId))
                 {
                     throw new UnprocessableEntityException("user not found or higher hierarchical level required");
                 }

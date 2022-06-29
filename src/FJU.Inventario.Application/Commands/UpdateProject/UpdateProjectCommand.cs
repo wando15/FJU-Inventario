@@ -34,7 +34,7 @@ namespace FJU.Inventario.Application.Commands.UpdateProject
             {
                 var currentProject = await ProjectRepository.GetProjectNameAsync(request?.Name);
 
-                if (currentProject != null && currentProject.Id != request.Id)
+                if (currentProject is not null && currentProject.Id != request.Id)
                 {
                     throw new UnprocessableEntityException("Project already exists");
                 }
@@ -47,7 +47,7 @@ namespace FJU.Inventario.Application.Commands.UpdateProject
                     }
                 }
 
-                await ProjectRepository.UpdateAsync(request.Id, (ProjectEntity)request);
+                await ProjectRepository.UpdateAsync((ProjectEntity)request);
 
                 return (UpdateProjectResponse)(ProjectEntity)request;
             }

@@ -12,7 +12,7 @@ namespace FJU.Inventario.CrossCutting.DependenceInjection
         {
             var section = configuration.GetSection("MongoConfig");
 
-            if(section is null)
+            if (section is null)
             {
                 throw new NotFoundException("Configure Section MongoConfig not Found");
             }

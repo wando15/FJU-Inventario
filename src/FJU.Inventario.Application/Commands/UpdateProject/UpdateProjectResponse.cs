@@ -16,7 +16,7 @@ namespace FJU.Inventario.Application.Commands.UpdateProject
                     IsSuccess = true,
                     Message = "Create Project Successfoly",
                     StatusCode = HttpStatusCode.Created,
-                    Result = input
+                    Data = input
                 }
             };
         }

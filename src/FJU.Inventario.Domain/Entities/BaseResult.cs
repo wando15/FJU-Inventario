@@ -7,7 +7,7 @@ namespace FJU.Inventario.Domain.Entities
         public HttpStatusCode StatusCode { get; set; }
         public string? Message { get; set; }
         public bool IsSuccess { get; set; }
-        public TResult? Result { get; set; }
+        public TResult? Data { get; set; }
 
 
 

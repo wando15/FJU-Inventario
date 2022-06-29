@@ -1,7 +1,9 @@
-﻿using FJU.Inventario.Domain.Repositories;
+﻿using FJU.Inventario.Domain.Entities;
+using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace FJU.Inventario.Application.Query.GetUsers
 {
@@ -34,7 +36,16 @@ namespace FJU.Inventario.Application.Query.GetUsers
                     throw new NotFoundException("no user found");
                 }
 
-                return (GetUsersResponse)users;
+                return new GetUsersResponse
+                {
+                    Result = new BaseResult<IList<UserEntity>>
+                    {
+                        IsSuccess = true,
+                        Message = "These are the users found",
+                        StatusCode = HttpStatusCode.OK,
+                        Data = users
+                    }
+                };
             }
             catch (Exception ex)
             {

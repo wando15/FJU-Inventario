@@ -29,7 +29,7 @@ namespace FJU.Inventario.Application.Query.GetUserById
             {
                 var user = await Repository.GetAsync(request?.Id);
 
-                if(user is null)
+                if (user is null)
                 {
                     throw new NotFoundException("User not found");
                 }

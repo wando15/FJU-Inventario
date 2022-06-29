@@ -19,11 +19,21 @@ namespace FJU.Inventario.Infrastructure.Repositories
         #endregion
 
         #region Implementation Repository
+
+        public async Task<ProductEntity> CreateAsync(ProductEntity entity)
+        {
+            await ProductCollection.InsertOneAsync(entity);
+            return entity;
+        }
+
+        public async Task UpdateAsync(ProductEntity entity) =>
+            await ProductCollection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
+
         public async Task<IList<ProductEntity>> GetAsync() =>
-        await ProductCollection.Find(_ => true).ToListAsync();
+            await ProductCollection.Find(_ => true).ToListAsync();
 
         public async Task<ProductEntity> GetLastAsync() =>
-        await ProductCollection.Find(_ => true).FirstOrDefaultAsync();
+            await ProductCollection.Find(_ => true).FirstOrDefaultAsync();
 
         public async Task<ProductEntity> GetAsync(string id) =>
             await ProductCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
@@ -34,17 +44,8 @@ namespace FJU.Inventario.Infrastructure.Repositories
         public async Task<ProductEntity> GetProductNameAsync(string name) =>
             await ProductCollection.Find(x => x.Name == name).FirstOrDefaultAsync();
 
-        public async Task<ProductEntity> CreateAsync(ProductEntity project)
-        {
-            await ProductCollection.InsertOneAsync(project);
-            return project;
-        }
-
-        public async Task UpdateAsync(string id, ProductEntity project) =>
-            await ProductCollection.ReplaceOneAsync(x => x.Id == id, project);
-
-        public async Task RemoveAsync(ProductEntity project) =>
-            await ProductCollection.DeleteOneAsync(x => x.Id == project.Id);
+        public async Task RemoveAsync(ProductEntity entity) =>
+            await ProductCollection.DeleteOneAsync(x => x.Id == entity.Id);
 
         #endregion
     }

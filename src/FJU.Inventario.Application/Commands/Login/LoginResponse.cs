@@ -16,7 +16,7 @@ namespace FJU.Inventario.Application.Commands.Login
                     IsSuccess = true,
                     Message = "Login Succesfuly",
                     StatusCode = HttpStatusCode.OK,
-                    Result = token
+                    Data = token
                 }
             };
         }

@@ -31,14 +31,14 @@ namespace FJU.Inventario.Application.Commands.UpdateUser
             {
                 var currentUser = await UserRepository.GetAsync(request?.Id);
 
-                if (currentUser != null)
+                if (currentUser is not null && currentUser.Id != request.Id)
                 {
                     throw new UnprocessableEntityException("User not found");
                 }
 
                 request.Password = currentUser?.Password;
 
-                await UserRepository.UpdateAsync(request?.Id, (UserEntity)request);
+                await UserRepository.UpdateAsync((UserEntity)request);
 
                 return (UpdateUserResponse)(UserEntity)request;
             }

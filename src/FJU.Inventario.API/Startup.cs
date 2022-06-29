@@ -1,5 +1,4 @@
-﻿using FJU.Inventario.Application.Commands.CreateUser;
-using FJU.Inventario.CrossCutting.DependenceInjection;
+﻿using FJU.Inventario.CrossCutting.DependenceInjection;
 using FJU.Inventario.CrossCutting.Middleware.Authorization;
 using FJU.Inventario.CrossCutting.Middleware.ExceptionHandler;
 using MediatR;
@@ -22,7 +21,7 @@ namespace FJU.Inventario.API
             services.AddHttpContextAccessor();
             services.AddEndpointsApiExplorer();
             services.AddControllers();
-            services.AddOptions(); 
+            services.AddOptions();
             services.AddAuthentication();
             services.AddAuthorization();
             services.AddVersion();

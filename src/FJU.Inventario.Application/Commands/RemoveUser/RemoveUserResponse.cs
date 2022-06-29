@@ -16,7 +16,7 @@ namespace FJU.Inventario.Application.Commands.RemoveUser
                     IsSuccess = IsSuccess,
                     Message = "User deleted",
                     StatusCode = HttpStatusCode.OK,
-                    Result = IsSuccess
+                    Data = IsSuccess
                 }
             };
         }

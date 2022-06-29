@@ -14,8 +14,8 @@ namespace FJU.Inventario.API.Controllers.v1
     [Produces("application/json")]
     public class UserController : Controller
     {
-        private ILogger<UserController> Logger { get; set; }
-        private IMediator Mediator { get; set; }
+        private ILogger<UserController> Logger { get; }
+        private IMediator Mediator { get; }
 
         public UserController(ILogger<UserController> logger,
             IMediator mediator)
@@ -52,10 +52,10 @@ namespace FJU.Inventario.API.Controllers.v1
         [ProducesResponseType(typeof(GetUsersResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Get(GetUsersRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             Logger.LogInformation($"Send GetUsers");
-            var result = await Mediator.Send(request, cancellationToken);
+            var result = await Mediator.Send(new GetUsersRequest(), cancellationToken);
 
             return Ok(result);
         }

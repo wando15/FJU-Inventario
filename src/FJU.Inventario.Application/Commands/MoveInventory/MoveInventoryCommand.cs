@@ -13,20 +13,17 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
         private ILogger<MoveInventoryCommand> Logger { get; }
         private IMovementInventoryRepository MovementInventoryRepository { get; }
         private IProductRepository ProductRepository { get; }
-        private IHttpContextAccessor Context { get; }
         #endregion
 
         #region Constructor
         public MoveInventoryCommand(
             ILogger<MoveInventoryCommand> logger,
             IMovementInventoryRepository movementInventoryRepository,
-            IProductRepository productRepository,
-            IHttpContextAccessor context)
+            IProductRepository productRepository)
         {
             Logger = logger;
             MovementInventoryRepository = movementInventoryRepository;
             ProductRepository = productRepository;
-            Context = context;
         }
         #endregion
 
@@ -35,21 +32,21 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
         {
             try
             {
-                var userId = Context.HttpContext.Request.Headers["UserId"].ToString();
-                var product = await ProductRepository.GetAsync(request.ProductId);
-
-                if (product == null)
+                foreach (var item in request.Products)
                 {
-                    throw new NotFoundException("product Not Found");
+                    var product = await ProductRepository.GetAsync(item.ProductId);
+
+                    if (product is null)
+                    {
+                        throw new NotFoundException("product Not Found");
+                    }
+
+                    product.Available = product.Ammount - item.AmmountWithdrawal;
+                    await ProductRepository.UpdateAsync(product);
                 }
 
-                product.Available = product.Ammount - request.AmmountWithdrawal;
-
-                request.UserId = userId;
-                request.ProductId = product.Id;
                 var moviment = await MovementInventoryRepository.CreateAsync((MovimentInventoryEntity)request);
 
-                await ProductRepository.UpdateAsync(product.Id, product);
 
                 return (MoveInventoryResponse)moviment;
             }

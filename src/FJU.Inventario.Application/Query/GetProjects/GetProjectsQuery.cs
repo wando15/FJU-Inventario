@@ -1,7 +1,9 @@
-﻿using FJU.Inventario.Domain.Repositories;
+﻿using FJU.Inventario.Domain.Entities;
+using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace FJU.Inventario.Application.Query.GetProjects
 {
@@ -27,14 +29,23 @@ namespace FJU.Inventario.Application.Query.GetProjects
         {
             try
             {
-                var Projects = await Repository.GetAsync();
+                var projects = await Repository.GetAsync();
 
-                if (Projects is null)
+                if (projects is null)
                 {
                     throw new NotFoundException("Projects not found");
                 }
 
-                return (GetProjectsResponse)Projects;
+                return new GetProjectsResponse
+                {
+                    Result = new BaseResult<IList<ProjectEntity>>()
+                    {
+                        IsSuccess = true,
+                        Message = "these is projects found",
+                        StatusCode = HttpStatusCode.OK,
+                        Data = projects
+                    }
+                };
             }
             catch (Exception ex)
             {

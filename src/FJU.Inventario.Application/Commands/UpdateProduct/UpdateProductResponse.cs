@@ -15,7 +15,7 @@ namespace FJU.Inventario.Application.Commands.UpdateProduct
                     IsSuccess = true,
                     Message = "Updated product successfoly",
                     StatusCode = System.Net.HttpStatusCode.OK,
-                    Result = input
+                    Data = input
                 }
             };
         }

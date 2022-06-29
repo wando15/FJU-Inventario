@@ -1,7 +1,5 @@
-﻿using FJU.Inventario.Domain.Entities;
-using FJU.Inventario.Domain.Repositories;
+﻿using FJU.Inventario.Domain.Repositories;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace FJU.Inventario.Application.Commands.ReturnedInventory
@@ -33,17 +31,27 @@ namespace FJU.Inventario.Application.Commands.ReturnedInventory
             {
                 var moviment = await MovementInventoryRepository.GetAsync(request.Id);
 
-                await VerifyProduct(moviment.ProductId, request);
+                foreach (var item in request.Products)
+                {
+                    var product = await ProductRepository.GetAsync(item.ProductId);
 
-                if (moviment.AmmountWithdrawal == request.AmmountReturned)
+                    product.Available += item.AmmountReturned;
+                    await ProductRepository.UpdateAsync(product);
+                }
+
+                foreach (var item in moviment.Products)
+                {
+                    var product = request.Products.Where(x => x.ProductId == item.ProductId).FirstOrDefault();
+                    item.AmmountReturned = product.AmmountReturned;
+                }
+
+                if (!moviment.Products.Any(x => x.AmmountReturned < x.AmmountWithdrawal))
                 {
                     moviment.IsOpened = false;
                     moviment.Returned = DateTime.UtcNow;
                 }
 
-                moviment.AmmountReturned = request.AmmountReturned;
-
-                await MovementInventoryRepository.UpdateAsync(moviment.Id, moviment);
+                await MovementInventoryRepository.UpdateAsync(moviment);
 
                 return (ReturnedInventoryResponse)true;
             }
@@ -58,10 +66,7 @@ namespace FJU.Inventario.Application.Commands.ReturnedInventory
         #region Methods
         private async Task VerifyProduct(string productId, ReturnedInventoryRequest request)
         {
-            var product = await ProductRepository.GetAsync(productId);
 
-            product.Available += request.AmmountReturned;
-            await ProductRepository.UpdateAsync(product.Id, product);
         }
         #endregion
     }

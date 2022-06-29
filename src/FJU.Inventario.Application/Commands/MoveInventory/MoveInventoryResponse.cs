@@ -4,7 +4,7 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
 {
     public class MoveInventoryResponse
     {
-        public BaseResult<MovimentInventoryEntity>? Result{ get; set; }
+        public BaseResult<MovimentInventoryEntity>? Result { get; set; }
 
         public static explicit operator MoveInventoryResponse(MovimentInventoryEntity input)
         {
@@ -15,7 +15,7 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
                     IsSuccess = true,
                     Message = "Products withdrawn successfully",
                     StatusCode = System.Net.HttpStatusCode.OK,
-                    Result = input
+                    Data = input
                 }
             };
         }

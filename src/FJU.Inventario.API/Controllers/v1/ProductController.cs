@@ -15,8 +15,8 @@ namespace FJU.Inventario.API.Controllers.v1
     [Produces("application/json")]
     public class ProductController : Controller
     {
-        private ILogger<ProductController> Logger { get; set; }
-        private IMediator Mediator { get; set; }
+        private ILogger<ProductController> Logger { get; }
+        private IMediator Mediator { get; }
 
         public ProductController(ILogger<ProductController> logger,
             IMediator mediator)
@@ -53,10 +53,10 @@ namespace FJU.Inventario.API.Controllers.v1
         [ProducesResponseType(typeof(GetProductsResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Get(GetProductsRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             Logger.LogInformation($"Send GetProducts");
-            var result = await Mediator.Send(request, cancellationToken);
+            var result = await Mediator.Send(new GetProductsRequest(), cancellationToken);
 
             return Ok(result);
         }
@@ -134,5 +134,5 @@ namespace FJU.Inventario.API.Controllers.v1
 
             return Ok(result);
         }
-}
+    }
 }

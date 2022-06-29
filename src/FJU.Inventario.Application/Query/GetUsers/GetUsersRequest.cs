@@ -2,7 +2,7 @@
 
 namespace FJU.Inventario.Application.Query.GetUsers
 {
-    public class GetUsersRequest: IRequest<GetUsersResponse>
+    public class GetUsersRequest : IRequest<GetUsersResponse>
     {
     }
 }

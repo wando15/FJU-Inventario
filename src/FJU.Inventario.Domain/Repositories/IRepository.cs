@@ -1,5 +1,4 @@
 ﻿using FJU.Inventario.Domain.Entities;
-using MongoDB.Bson;
 
 namespace FJU.Inventario.Domain.Repositories
 {
@@ -11,7 +10,7 @@ namespace FJU.Inventario.Domain.Repositories
 
         Task<T> CreateAsync(T entity);
 
-        Task UpdateAsync(string id, T entity);
+        Task UpdateAsync(T entity);
 
         Task RemoveAsync(T entity);
     }

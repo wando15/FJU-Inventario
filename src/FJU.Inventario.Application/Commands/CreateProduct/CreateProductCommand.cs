@@ -30,7 +30,7 @@ namespace FJU.Inventario.Application.Commands.CreateProduct
             {
                 var currentProduct = await Repository.GetProductNameAsync(request.Name);
 
-                if(currentProduct != null)
+                if (currentProduct != null)
                 {
                     throw new UnprocessableEntityException("Product already existis");
                 }
@@ -39,7 +39,7 @@ namespace FJU.Inventario.Application.Commands.CreateProduct
 
                 return (CreateProductResponse)newProduct;
             }
-            catch( Exception ex)
+            catch (Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
                 throw;

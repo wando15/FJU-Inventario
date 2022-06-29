@@ -16,12 +16,13 @@ namespace FJU.Inventario.Application.Commands.UpdateProduct
         {
             return new ProductEntity
             {
+                Id = input.Id,
                 Name = input.Name,
                 Description = input.Description,
                 ProjectId = input.ProjectId,
                 Ammount = input.Ammount,
                 Available = input.Available
-                
+
             };
         }
     }

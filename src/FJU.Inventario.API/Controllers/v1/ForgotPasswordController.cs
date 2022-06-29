@@ -11,8 +11,8 @@ namespace FJU.Inventario.API.Controllers.v1
     public class ForgotPasswordController : Controller
     {
 
-        private ILogger<ForgotPasswordController> Logger { get; set; }
-        private IMediator Mediator { get; set; }
+        private ILogger<ForgotPasswordController> Logger { get; }
+        private IMediator Mediator { get; }
 
         public ForgotPasswordController(ILogger<ForgotPasswordController> logger,
             IMediator mediator)

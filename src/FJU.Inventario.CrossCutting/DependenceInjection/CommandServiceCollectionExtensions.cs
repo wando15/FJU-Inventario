@@ -14,8 +14,11 @@ using FJU.Inventario.Application.Commands.UpdateUser;
 using FJU.Inventario.Application.Common.EncriptedPassword;
 using FJU.Inventario.Application.Common.ValidateCoordenate;
 using FJU.Inventario.Application.Query.GetClosedMovimentInventory;
+using FJU.Inventario.Application.Query.GetClosedMovimentInventoryByProductId;
 using FJU.Inventario.Application.Query.GetOpenedMovimentInventory;
+using FJU.Inventario.Application.Query.GetOpenedMovimentInventoryByProductId;
 using FJU.Inventario.Application.Query.GetProductById;
+using FJU.Inventario.Application.Query.GetProductByProjectId;
 using FJU.Inventario.Application.Query.GetProducts;
 using FJU.Inventario.Application.Query.GetProjectById;
 using FJU.Inventario.Application.Query.GetProjects;
@@ -41,6 +44,7 @@ namespace FJU.Inventario.CrossCutting.DependenceInjection
             services.AddSingleton<IRequestHandler<UpdateProjectRequest, UpdateProjectResponse>, UpdateProjectCommand>();
             services.AddSingleton<IRequestHandler<RemoveProjectParams, RemoveProjectResponse>, RemoveProjectCommand>();
             services.AddSingleton<IRequestHandler<GetProjectByIdParams, GetProjectByIdResponse>, GetProjectByIdQuery>();
+            services.AddSingleton<IRequestHandler<GetProductByProjectIdParams, GetProductByProjectIdResponse>, GetProductByProjectIdQuery>();
             services.AddSingleton<IRequestHandler<GetProjectsRequest, GetProjectsResponse>, GetProjectsQuery>();
             services.AddSingleton<IRequestHandler<CreateProductRequest, CreateProductResponse>, CreateProductCommand>();
             services.AddSingleton<IRequestHandler<UpdateProductRequest, UpdateProductResponse>, UpdateProductCommand>();
@@ -51,6 +55,8 @@ namespace FJU.Inventario.CrossCutting.DependenceInjection
             services.AddSingleton<IRequestHandler<ReturnedInventoryRequest, ReturnedInventoryResponse>, ReturnedInventoryCommand>();
             services.AddSingleton<IRequestHandler<GetOpenedMovimentInventoryRequest, GetOpenedMovimentInventoryResponse>, GetOpenedMovimentInventoryQuery>();
             services.AddSingleton<IRequestHandler<GetClosedMovimentInventoryRequest, GetClosedMovimentInventoryResponse>, GetClosedMovimentInventoryQuery>();
+            services.AddSingleton<IRequestHandler<GetClosedMovimentInventoryByProductIdParams, GetClosedMovimentInventoryByProductIdResponse>, GetClosedMovimentInventoryByProductIdQuery>();
+            services.AddSingleton<IRequestHandler<GetOpenedMovimentInventoryByProductIdParams, GetOpenedMovimentInventoryByProductIdResponse>, GetOpenedMovimentInventoryByProductIdQuery>();
 
             services.AddSingleton<IEncryptionPassword, EncryptionPassword>();
             services.AddSingleton<IVerifyUserCoordenate, VerifyUserCoordenate>();

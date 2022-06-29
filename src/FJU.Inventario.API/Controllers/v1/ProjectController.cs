@@ -14,8 +14,8 @@ namespace FJU.Inventario.API.Controllers.v1
     [Produces("application/json")]
     public class ProjectController : Controller
     {
-        private ILogger<ProjectController> Logger { get; set; }
-        private IMediator Mediator { get; set; }
+        private ILogger<ProjectController> Logger { get; }
+        private IMediator Mediator { get; }
 
         public ProjectController(ILogger<ProjectController> logger,
             IMediator mediator)
@@ -52,10 +52,10 @@ namespace FJU.Inventario.API.Controllers.v1
         [ProducesResponseType(typeof(GetProjectsResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Get(GetProjectsRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             Logger.LogInformation($"Send GetProjects");
-            var result = await Mediator.Send(request, cancellationToken);
+            var result = await Mediator.Send(new GetProjectsRequest(), cancellationToken);
 
             return Ok(result);
         }

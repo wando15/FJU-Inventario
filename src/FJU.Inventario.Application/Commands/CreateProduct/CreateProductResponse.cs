@@ -16,7 +16,7 @@ namespace FJU.Inventario.Application.Commands.CreateProduct
                     IsSuccess = true,
                     Message = "Create product successfoly",
                     StatusCode = HttpStatusCode.Created,
-                    Result = input
+                    Data = input
                 }
             };
         }

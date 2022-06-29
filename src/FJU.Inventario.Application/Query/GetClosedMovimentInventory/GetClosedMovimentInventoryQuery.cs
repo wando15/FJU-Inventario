@@ -1,8 +1,10 @@
-﻿using FJU.Inventario.Domain.Repositories;
+﻿using FJU.Inventario.Domain.Entities;
+using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace FJU.Inventario.Application.Query.GetClosedMovimentInventory
 {
@@ -34,12 +36,21 @@ namespace FJU.Inventario.Application.Query.GetClosedMovimentInventory
                 var userId = Context.HttpContext.Request.Headers["UserId"].ToString();
                 var moviments = await Repository.GetClosedMovementInventoryAsync(userId);
 
-                if(moviments is null)
+                if (moviments is null)
                 {
                     throw new NotFoundException("Closed moves Not Found");
                 }
 
-                return (GetClosedMovimentInventoryResponse)moviments;
+                return new GetClosedMovimentInventoryResponse
+                {
+                    Result = new BaseResult<IList<MovimentInventoryEntity>>()
+                    {
+                        IsSuccess = true,
+                        Message = "these is open moves found",
+                        StatusCode = HttpStatusCode.OK,
+                        Data = moviments
+                    }
+                };
             }
             catch (Exception ex)
             {

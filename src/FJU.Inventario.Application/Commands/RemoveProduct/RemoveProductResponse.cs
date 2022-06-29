@@ -16,7 +16,7 @@ namespace FJU.Inventario.Application.Commands.RemoveProduct
                     IsSuccess = IsSuccess,
                     Message = "Project deleted",
                     StatusCode = HttpStatusCode.OK,
-                    Result = IsSuccess
+                    Data = IsSuccess
                 }
             };
         }

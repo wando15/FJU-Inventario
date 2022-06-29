@@ -1,6 +1,5 @@
 ﻿using FJU.Inventario.Domain.Entities;
 using FJU.Inventario.Domain.Repositories;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace FJU.Inventario.Infrastructure.Repositories
@@ -32,19 +31,19 @@ namespace FJU.Inventario.Infrastructure.Repositories
         public async Task<UserEntity> GetUserNameAsync(string userName) =>
             await UserCollection.Find(x => x.UserName == userName).FirstOrDefaultAsync();
 
-        public async Task<UserEntity> CreateAsync(UserEntity user)
+        public async Task<UserEntity> CreateAsync(UserEntity entity)
         {
-            await UserCollection.InsertOneAsync(user);
-            return user;
+            await UserCollection.InsertOneAsync(entity);
+            return entity;
         }
 
-        public async Task UpdateAsync(string id, UserEntity user) =>
-            await UserCollection.ReplaceOneAsync(x => x.Id == id, user);
+        public async Task UpdateAsync(UserEntity entity) =>
+            await UserCollection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
 
-        public async Task RemoveAsync(UserEntity user)
+        public async Task RemoveAsync(UserEntity entity)
         {
-            user.IsActive = false;
-            await UserCollection.ReplaceOneAsync(x => x.Id == user.Id, user);
+            entity.IsActive = false;
+            await UserCollection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
         }
         #endregion
     }

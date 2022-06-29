@@ -35,14 +35,14 @@ namespace FJU.Inventario.Application.Commands.Login
             {
                 var user = await UserRepository.GetUserNameAsync(request?.UserName);
 
-                if (user is null)
+                if (user is null || !user.IsActive)
                 {
                     throw new UnauthorizedException("User not authorizes");
                 }
 
                 if (!await EncryptionPassword.Compare(request.Password, user.Password))
                 {
-                    throw new UnauthorizedException("User not authorizes");
+                    throw new UnauthorizedException("User not authorized");
                 }
 
                 var token = new AccessToken()

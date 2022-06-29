@@ -19,6 +19,16 @@ namespace FJU.Inventario.Infrastructure.Repositories
         #endregion
 
         #region Implementation Repository
+
+        public async Task<ProjectEntity> CreateAsync(ProjectEntity entity)
+        {
+            await ProjectCollection.InsertOneAsync(entity);
+            return entity;
+        }
+
+        public async Task UpdateAsync(ProjectEntity entity) =>
+            await ProjectCollection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
+
         public async Task<IList<ProjectEntity>> GetAsync() =>
         await ProjectCollection.Find(_ => true).ToListAsync();
 
@@ -31,17 +41,8 @@ namespace FJU.Inventario.Infrastructure.Repositories
         public async Task<ProjectEntity> GetProjectNameAsync(string name) =>
             await ProjectCollection.Find(x => x.Name == name).FirstOrDefaultAsync();
 
-        public async Task<ProjectEntity> CreateAsync(ProjectEntity project)
-        {
-            await ProjectCollection.InsertOneAsync(project);
-            return project;
-        }
-
-        public async Task UpdateAsync(string id, ProjectEntity project) =>
-            await ProjectCollection.ReplaceOneAsync(x => x.Id == id, project);
-
-        public async Task RemoveAsync(ProjectEntity project) =>
-            await ProjectCollection.DeleteOneAsync(x => x.Id == project.Id);
+        public async Task RemoveAsync(ProjectEntity entity) =>
+            await ProjectCollection.DeleteOneAsync(x => x.Id == entity.Id);
 
         #endregion
     }

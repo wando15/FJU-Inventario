@@ -15,7 +15,7 @@ namespace FJU.Inventario.Application.Commands.ReturnedInventory
                     IsSuccess = true,
                     Message = "Products withdrawn successfully",
                     StatusCode = System.Net.HttpStatusCode.OK,
-                    Result = input
+                    Data = input
                 }
             };
         }
