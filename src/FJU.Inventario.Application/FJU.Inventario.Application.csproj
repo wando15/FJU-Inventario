@@ -20,4 +20,8 @@
 	  <ProjectReference Include="..\FJU.Inventario.Infrastructure\FJU.Inventario.Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Common\ValidateAdmin\" />
+	</ItemGroup>
+
 </Project>

@@ -48,7 +48,8 @@ namespace FJU.Inventario.Application.Commands.Login
                 var token = new AccessToken()
                 {
                     UserId = user.Id,
-                    UserName = user.UserName
+                    UserName = user.UserName,
+                    Validate = DateTime.UtcNow.AddMinutes(30)
                 };
 
                 return (LoginResponse)EncodeTo64(System.Text.Json.JsonSerializer.Serialize(token));

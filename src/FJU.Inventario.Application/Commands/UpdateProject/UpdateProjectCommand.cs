@@ -1,4 +1,4 @@
-﻿using FJU.Inventario.Application.Common.ValidateCoordenate;
+﻿using FJU.Inventario.Application.Common.ValidatePermision;
 using FJU.Inventario.Domain.Entities;
 using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
@@ -12,17 +12,17 @@ namespace FJU.Inventario.Application.Commands.UpdateProject
         #region Properties
         private ILogger<UpdateProjectCommand> Logger { get; }
         private IProjectRepository ProjectRepository { get; }
-        private IVerifyUserCoordenate VerifyUserCoordenate { get; }
+        private IVerifyPermission Permission { get; }
         #endregion
 
         #region Constructor
         public UpdateProjectCommand(
             ILogger<UpdateProjectCommand> logger,
-            IVerifyUserCoordenate verifyUserCoordenate,
+            IVerifyPermission permission,
             IProjectRepository projectRepository)
         {
             Logger = logger;
-            VerifyUserCoordenate = verifyUserCoordenate;
+            Permission = permission;
             ProjectRepository = projectRepository;
         }
         #endregion
@@ -32,6 +32,11 @@ namespace FJU.Inventario.Application.Commands.UpdateProject
         {
             try
             {
+                if (await Permission.IsCoordenate())
+                {
+                    throw new UnprocessableEntityException("User higher hierarchical level required");
+                }
+
                 var currentProject = await ProjectRepository.GetProjectNameAsync(request?.Name);
 
                 if (currentProject is not null && currentProject.Id != request.Id)
@@ -41,10 +46,7 @@ namespace FJU.Inventario.Application.Commands.UpdateProject
 
                 if (request.CoordinatorId != currentProject.CoordinatorId)
                 {
-                    if (await VerifyUserCoordenate.IsCoordenate(request.CoordinatorId))
-                    {
-                        throw new UnprocessableEntityException("user not found or higher hierarchical level required");
-                    }
+                    throw new UnprocessableEntityException("you not have permissionfot this operation");
                 }
 
                 await ProjectRepository.UpdateAsync((ProjectEntity)request);

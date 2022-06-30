@@ -34,7 +34,7 @@ namespace FJU.Inventario.Application.Query.GetOpenedMovimentInventory
         {
             try
             {
-                var userId = Context.HttpContext.Request.Headers["UserId"].ToString();
+                var userId = Context.HttpContext.Request.Headers["UserId"];
                 var moviments = await Repository.GetOpenedMovementInventoryAsync(userId);
 
                 if (moviments is null)

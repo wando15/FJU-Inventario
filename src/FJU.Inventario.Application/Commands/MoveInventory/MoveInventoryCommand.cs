@@ -13,17 +13,20 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
         private ILogger<MoveInventoryCommand> Logger { get; }
         private IMovementInventoryRepository MovementInventoryRepository { get; }
         private IProductRepository ProductRepository { get; }
+        private IHttpContextAccessor Context { get; }
         #endregion
 
         #region Constructor
         public MoveInventoryCommand(
             ILogger<MoveInventoryCommand> logger,
             IMovementInventoryRepository movementInventoryRepository,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            IHttpContextAccessor context)
         {
             Logger = logger;
             MovementInventoryRepository = movementInventoryRepository;
             ProductRepository = productRepository;
+            Context = context;
         }
         #endregion
 
@@ -44,6 +47,8 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
                     product.Available = product.Ammount - item.AmmountWithdrawal;
                     await ProductRepository.UpdateAsync(product);
                 }
+
+                request.UserId = Context.HttpContext.Request.Headers["UserId"];
 
                 var moviment = await MovementInventoryRepository.CreateAsync((MovimentInventoryEntity)request);
 

@@ -1,4 +1,4 @@
-﻿using FJU.Inventario.Application.Common.ValidateCoordenate;
+﻿using FJU.Inventario.Application.Common.ValidatePermision;
 using FJU.Inventario.Domain.Entities;
 using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
@@ -12,17 +12,17 @@ namespace FJU.Inventario.Application.Commands.CreateProject
         #region Properties
         private ILogger<CreateProjectCommand> Logger { get; }
         private IProjectRepository ProjectRepository { get; }
-        private IVerifyUserCoordenate VerifyUserCoordenate { get; }
+        private IVerifyPermission Permission { get; }
         #endregion
 
         #region Constructor
         public CreateProjectCommand(
             ILogger<CreateProjectCommand> logger,
-            IVerifyUserCoordenate verifyUserCoordenate,
+            IVerifyPermission permission,
             IProjectRepository projectRepository)
         {
             Logger = logger;
-            VerifyUserCoordenate = verifyUserCoordenate;
+            Permission = permission;
             ProjectRepository = projectRepository;
         }
         #endregion
@@ -32,16 +32,16 @@ namespace FJU.Inventario.Application.Commands.CreateProject
         {
             try
             {
+                if (await Permission.IsAdmin())
+                {
+                    throw new UnprocessableEntityException("User higher hierarchical level required");
+                }
+
                 var existisProject = await ProjectRepository.GetProjectNameAsync(request?.Name);
 
                 if (existisProject != null)
                 {
                     throw new UnprocessableEntityException("Project already exists");
-                }
-
-                if (!await VerifyUserCoordenate.IsCoordenate(request.CoordinatorId))
-                {
-                    throw new UnprocessableEntityException("user not found or higher hierarchical level required");
                 }
 
                 var newProject = await ProjectRepository.CreateAsync((ProjectEntity)request);

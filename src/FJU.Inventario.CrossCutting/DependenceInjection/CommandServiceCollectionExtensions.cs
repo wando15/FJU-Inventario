@@ -12,7 +12,7 @@ using FJU.Inventario.Application.Commands.UpdateProduct;
 using FJU.Inventario.Application.Commands.UpdateProject;
 using FJU.Inventario.Application.Commands.UpdateUser;
 using FJU.Inventario.Application.Common.EncriptedPassword;
-using FJU.Inventario.Application.Common.ValidateCoordenate;
+using FJU.Inventario.Application.Common.ValidatePermision;
 using FJU.Inventario.Application.Query.GetClosedMovimentInventory;
 using FJU.Inventario.Application.Query.GetClosedMovimentInventoryByProductId;
 using FJU.Inventario.Application.Query.GetOpenedMovimentInventory;
@@ -59,7 +59,7 @@ namespace FJU.Inventario.CrossCutting.DependenceInjection
             services.AddSingleton<IRequestHandler<GetOpenedMovimentInventoryByProductIdParams, GetOpenedMovimentInventoryByProductIdResponse>, GetOpenedMovimentInventoryByProductIdQuery>();
 
             services.AddSingleton<IEncryptionPassword, EncryptionPassword>();
-            services.AddSingleton<IVerifyUserCoordenate, VerifyUserCoordenate>();
+            services.AddSingleton<IVerifyPermission, VerifyPermission>();
             return services;
         }
     }

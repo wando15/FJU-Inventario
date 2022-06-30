@@ -1,4 +1,5 @@
 ﻿using FJU.Inventario.Application.Common.EncriptedPassword;
+using FJU.Inventario.Application.Common.ValidatePermision;
 using FJU.Inventario.Domain.Entities;
 using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
@@ -13,17 +14,20 @@ namespace FJU.Inventario.Application.Commands.CreateUser
         private ILogger<CreateUserCommand> Logger { get; }
         private IUserRepository UserRepository { get; }
         private IEncryptionPassword EncryptionPassword { get; }
+        private IVerifyPermission Permission { get; }
         #endregion
 
         #region Constructor
         public CreateUserCommand(
             ILogger<CreateUserCommand> logger,
             IUserRepository userRepository,
-            IEncryptionPassword encryptionPassword)
+            IEncryptionPassword encryptionPassword,
+            IVerifyPermission permission)
         {
             Logger = logger;
             UserRepository = userRepository;
             EncryptionPassword = encryptionPassword;
+            Permission = permission;
         }
         #endregion
 
@@ -32,6 +36,11 @@ namespace FJU.Inventario.Application.Commands.CreateUser
         {
             try
             {
+                if (await Permission.IsAdmin())
+                {
+                    throw new UnprocessableEntityException("User higher hierarchical level required");
+                }
+
                 var existisUser = await UserRepository.GetUserNameAsync(request?.UserName);
 
                 if (existisUser != null)

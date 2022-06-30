@@ -1,4 +1,5 @@
-﻿using FJU.Inventario.Domain.Entities;
+﻿using FJU.Inventario.Application.Common.ValidatePermision;
+using FJU.Inventario.Domain.Entities;
 using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
@@ -11,15 +12,18 @@ namespace FJU.Inventario.Application.Commands.UpdateProduct
         #region Properties
         private ILogger<UpdateProductCommand> Logger { get; }
         private IProductRepository Repository { get; }
+        private IVerifyPermission Permission { get; }
         #endregion
 
         #region Constructor
         public UpdateProductCommand(
             ILogger<UpdateProductCommand> logger,
-            IProductRepository repository)
+            IProductRepository repository,
+            IVerifyPermission permission)
         {
             Logger = logger;
             Repository = repository;
+            Permission = permission;
         }
         #endregion
 
@@ -28,6 +32,11 @@ namespace FJU.Inventario.Application.Commands.UpdateProduct
         {
             try
             {
+                if (await Permission.IsAdmin())
+                {
+                    throw new UnprocessableEntityException("User higher hierarchical level required");
+                }
+
                 var currentProduct = await Repository.GetProductNameAsync(request.Name);
 
                 if (currentProduct is not null && currentProduct.Id != request.Id)

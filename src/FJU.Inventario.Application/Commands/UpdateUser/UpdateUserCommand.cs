@@ -1,4 +1,5 @@
 ﻿using FJU.Inventario.Application.Commands.CreateUser;
+using FJU.Inventario.Application.Common.ValidatePermision;
 using FJU.Inventario.Domain.Entities;
 using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
@@ -12,15 +13,18 @@ namespace FJU.Inventario.Application.Commands.UpdateUser
         #region Properties
         private ILogger<CreateUserCommand> Logger { get; }
         private IUserRepository UserRepository { get; }
+        private IVerifyPermission Permission { get; }
         #endregion
 
         #region Constructor
         public UpdateUserCommand(
             ILogger<CreateUserCommand> logger,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IVerifyPermission permission)
         {
             Logger = logger;
             UserRepository = userRepository;
+            Permission = permission;
         }
         #endregion
 
@@ -29,6 +33,11 @@ namespace FJU.Inventario.Application.Commands.UpdateUser
         {
             try
             {
+                if (await Permission.IsAdmin())
+                {
+                    throw new UnprocessableEntityException("User higher hierarchical level required");
+                }
+
                 var currentUser = await UserRepository.GetAsync(request?.Id);
 
                 if (currentUser is not null && currentUser.Id != request.Id)

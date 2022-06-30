@@ -10,6 +10,7 @@ namespace FJU.Inventario.Domain.Entities
         public string? Password { get; set; }
         public string? ProjectId { get; set; }
         public bool IsCoordinator { get; set; }
+        public bool IsAdmin { get; set; }
         public bool IsActive { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FJU.Inventario.Domain.Repositories;
+﻿using FJU.Inventario.Application.Common.ValidatePermision;
+using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -10,15 +11,18 @@ namespace FJU.Inventario.Application.Commands.RemoveProduct
         #region Properties
         private ILogger<RemoveProductCommand> Logger { get; }
         private IUserRepository Repository { get; }
+        private IVerifyPermission Permission { get; }
         #endregion
 
         #region Constructor
         public RemoveProductCommand(
             ILogger<RemoveProductCommand> logger,
-            IUserRepository repository)
+            IUserRepository repository,
+            IVerifyPermission permission)
         {
             Logger = logger;
             Repository = repository;
+            Permission = permission;
         }
         #endregion
 
@@ -27,6 +31,11 @@ namespace FJU.Inventario.Application.Commands.RemoveProduct
         {
             try
             {
+                if (await Permission.IsCoordenate())
+                {
+                    throw new UnprocessableEntityException("User higher hierarchical level required");
+                }
+
                 var user = await Repository.GetAsync(request?.Id);
 
                 if (user is null)

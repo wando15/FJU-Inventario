@@ -33,7 +33,7 @@ namespace FJU.Inventario.Application.Query.GetClosedMovimentInventory
         {
             try
             {
-                var userId = Context.HttpContext.Request.Headers["UserId"].ToString();
+                var userId = Context.HttpContext.Request.Headers["UserId"];
                 var moviments = await Repository.GetClosedMovementInventoryAsync(userId);
 
                 if (moviments is null)

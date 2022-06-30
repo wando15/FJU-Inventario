@@ -33,9 +33,9 @@ namespace FJU.Inventario.CrossCutting.Middleware.Authorization
 
                     var userInfo = System.Text.Json.JsonSerializer.Deserialize<AccessToken>(Token);
 
-                    if (ConvertToTimestamp(DateTime.UtcNow) < ConvertToTimestamp(AddTime(userInfo.Timestamp)))
+                    if (userInfo.Validate < DateTime.UtcNow)
                     {
-                        throw new UnauthorizedException("access not allowed");
+                        throw new UnauthorizedException("Session expired");
                     }
 
                     context.Request.Headers.Add("UserId", userInfo.UserId);
@@ -62,11 +62,11 @@ namespace FJU.Inventario.CrossCutting.Middleware.Authorization
             return (long)elapsedTime.TotalSeconds;
         }
 
-        private static DateTime AddTime(long value)
+        private static long AddTime(long value)
         {
-            DateTime dat_Time = new DateTime(1965, 1, 1, 0, 0, 0, 0);
-            dat_Time.AddDays(1);
-            return dat_Time.AddSeconds(value);
+            var dat_Time = DateTime.MinValue;
+            dat_Time.AddHours(6);
+            return ConvertToTimestamp(dat_Time.AddSeconds(value));
         }
     }
 }
