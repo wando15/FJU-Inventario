@@ -4,6 +4,7 @@ using FJU.Inventario.Application.Commands.UpdateUser;
 using FJU.Inventario.Application.Query.GetUserById;
 using FJU.Inventario.Application.Query.GetUsers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -31,6 +32,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles = "Admin,Coordenator")]
         [ProducesResponseType(typeof(CreateUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,6 +51,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Admin,Coordenator")]
         [ProducesResponseType(typeof(GetUsersResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,6 +70,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin,Coordenator")]
         [ProducesResponseType(typeof(GetUserByIdResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -85,6 +89,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,Coordenator")]
         [ProducesResponseType(typeof(RemoveUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -104,6 +109,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Coordenator")]
         [ProducesResponseType(typeof(UpdateUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

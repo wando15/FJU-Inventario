@@ -13,7 +13,7 @@ namespace FJU.Inventario.Application.Commands.CreateProduct
         private ILogger<CreateProductCommand> Logger { get; }
         private IProductRepository Repository { get; }
         private IVerifyPermission Permission { get; }
-        
+
         #endregion
 
         #region Constructor

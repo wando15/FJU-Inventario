@@ -5,6 +5,7 @@ using FJU.Inventario.Application.Query.GetProductById;
 using FJU.Inventario.Application.Query.GetProductByProjectId;
 using FJU.Inventario.Application.Query.GetProducts;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -32,6 +33,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize(Roles ="Admin, Coordenator")]
         [ProducesResponseType(typeof(CreateProductResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -50,6 +52,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         [ProducesResponseType(typeof(GetProductsResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,6 +71,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(typeof(GetProductByIdResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -86,6 +90,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("project/{id}")]
+        [Authorize]
         [ProducesResponseType(typeof(GetProductByProjectIdResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -104,6 +109,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin, Coordenator")]
         [ProducesResponseType(typeof(RemoveProductResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -123,6 +129,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin, Coordenator")]
         [ProducesResponseType(typeof(UpdateProductResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

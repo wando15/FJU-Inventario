@@ -45,10 +45,10 @@ namespace FJU.Inventario.Infrastructure.Repositories
             await MovementInventoryCollection.Find(x => x.UserId == userId && !x.IsOpened).ToListAsync();
 
         public async Task<IList<MovimentInventoryEntity>> GetOpenedMovementInventoryByProductIdAsync(string productId) =>
-            await MovementInventoryCollection.Find(x => x.Products.Any(x => x.ProductId == productId) && x.IsOpened).ToListAsync();
+            await MovementInventoryCollection.Find(x => x.ProductsReturned.Any(x => x.ProductId == productId) && x.IsOpened).ToListAsync();
 
         public async Task<IList<MovimentInventoryEntity>> GetClosedMovementInventoryByProductIdAsync(string productId) =>
-            await MovementInventoryCollection.Find(x => x.Products.Any(x => x.ProductId == productId) && !x.IsOpened).ToListAsync();
+            await MovementInventoryCollection.Find(x => x.ProductsReturned.Any(x => x.ProductId == productId) && !x.IsOpened).ToListAsync();
         #endregion
     }
 }

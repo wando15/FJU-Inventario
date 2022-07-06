@@ -1,10 +1,10 @@
-﻿using FJU.Inventario.Application.Common.EncriptedPassword;
-using FJU.Inventario.Application.Common.ValidatePermision;
+﻿using FJU.Inventario.Application.Common.ValidatePermision;
 using FJU.Inventario.Domain.Entities;
 using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Bcrypt = BCrypt.Net.BCrypt;
 
 namespace FJU.Inventario.Application.Commands.CreateUser
 {
@@ -13,7 +13,6 @@ namespace FJU.Inventario.Application.Commands.CreateUser
         #region Properties
         private ILogger<CreateUserCommand> Logger { get; }
         private IUserRepository UserRepository { get; }
-        private IEncryptionPassword EncryptionPassword { get; }
         private IVerifyPermission Permission { get; }
         #endregion
 
@@ -21,12 +20,10 @@ namespace FJU.Inventario.Application.Commands.CreateUser
         public CreateUserCommand(
             ILogger<CreateUserCommand> logger,
             IUserRepository userRepository,
-            IEncryptionPassword encryptionPassword,
             IVerifyPermission permission)
         {
             Logger = logger;
             UserRepository = userRepository;
-            EncryptionPassword = encryptionPassword;
             Permission = permission;
         }
         #endregion
@@ -48,7 +45,7 @@ namespace FJU.Inventario.Application.Commands.CreateUser
                     throw new UnprocessableEntityException("User already exists");
                 }
 
-                request.Password = await EncryptionPassword.Encrypt(request.Password);
+                request.Password = Bcrypt.HashPassword(request?.Password);
 
                 var newUser = await UserRepository.CreateAsync((UserEntity)request);
 

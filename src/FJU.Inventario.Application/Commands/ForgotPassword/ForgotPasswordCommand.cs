@@ -1,8 +1,8 @@
-﻿using FJU.Inventario.Application.Common.EncriptedPassword;
-using FJU.Inventario.Domain.Repositories;
+﻿using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Bcrypt = BCrypt.Net.BCrypt;
 
 namespace FJU.Inventario.Application.Commands.ForgotPassword
 {
@@ -11,18 +11,15 @@ namespace FJU.Inventario.Application.Commands.ForgotPassword
         #region Properties
         private ILogger<ForgotPasswordCommand> Logger { get; }
         private IUserRepository UserRepository { get; }
-        private IEncryptionPassword EncryptionPassword { get; }
         #endregion
 
         #region Constructor
         public ForgotPasswordCommand(
             ILogger<ForgotPasswordCommand> logger,
-            IUserRepository userRepository,
-            IEncryptionPassword encryptionPassword)
+            IUserRepository userRepository)
         {
             Logger = logger;
             UserRepository = userRepository;
-            EncryptionPassword = encryptionPassword;
         }
         #endregion
 
@@ -38,7 +35,7 @@ namespace FJU.Inventario.Application.Commands.ForgotPassword
                     throw new NotFoundException("User not found");
                 }
 
-                user.Password = await EncryptionPassword.Encrypt(request.NewPassword);
+                user.Password = Bcrypt.HashPassword(request.NewPassword);
 
                 await UserRepository.UpdateAsync(user);
 

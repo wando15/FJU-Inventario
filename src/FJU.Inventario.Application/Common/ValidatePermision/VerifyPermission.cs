@@ -55,6 +55,6 @@ namespace FJU.Inventario.Application.Common.ValidatePermision
                 throw;
             }
         }
-#endregion
+        #endregion
     }
 }

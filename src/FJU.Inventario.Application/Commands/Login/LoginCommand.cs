@@ -1,10 +1,9 @@
-﻿using FJU.Inventario.Application.Common.EncriptedPassword;
-using FJU.Inventario.Domain.Entities;
+﻿using FJU.Inventario.Application.Common;
 using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using System.Text;
+using Bcrypt = BCrypt.Net.BCrypt;
 
 namespace FJU.Inventario.Application.Commands.Login
 {
@@ -13,18 +12,18 @@ namespace FJU.Inventario.Application.Commands.Login
         #region Properties
         private ILogger<LoginCommand> Logger { get; }
         private IUserRepository UserRepository { get; }
-        private IEncryptionPassword EncryptionPassword { get; }
+        private ITokenService TokenService { get; }
         #endregion
 
         #region Constructor
         public LoginCommand(
             ILogger<LoginCommand> logger,
             IUserRepository userRepository,
-            IEncryptionPassword encryptionPassword)
+            ITokenService tokenService)
         {
             Logger = logger;
             UserRepository = userRepository;
-            EncryptionPassword = encryptionPassword;
+            TokenService = tokenService;
         }
         #endregion
 
@@ -35,40 +34,20 @@ namespace FJU.Inventario.Application.Commands.Login
             {
                 var user = await UserRepository.GetUserNameAsync(request?.UserName);
 
-                if (user is null || !user.IsActive)
+                if (user is null || !user.IsActive || !Bcrypt.Verify(request.Password, user.Password))
                 {
-                    throw new UnauthorizedException("User not authorizes");
+                    throw new UnauthorizedException("Username or password incorrect");
                 }
 
-                if (!await EncryptionPassword.Compare(request.Password, user.Password))
-                {
-                    throw new UnauthorizedException("User not authorized");
-                }
+                var token = await TokenService.GenerateToken(user);
 
-                var token = new AccessToken()
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName,
-                    Validate = DateTime.UtcNow.AddMinutes(30)
-                };
-
-                return (LoginResponse)EncodeTo64(System.Text.Json.JsonSerializer.Serialize(token));
+                return (LoginResponse)token;
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex.Message, ex);
                 throw;
             }
-        }
-        #endregion
-
-        #region Methods
-        public string EncodeTo64(string toEncode)
-        {
-            byte[] toEncodeAsBytes = ASCIIEncoding.ASCII.GetBytes(toEncode);
-            string returnValue = Convert.ToBase64String(toEncodeAsBytes);
-
-            return returnValue;
         }
         #endregion
     }

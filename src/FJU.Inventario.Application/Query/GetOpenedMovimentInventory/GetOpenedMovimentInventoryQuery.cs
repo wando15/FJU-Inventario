@@ -2,7 +2,6 @@
 using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Net;
 
@@ -10,22 +9,18 @@ namespace FJU.Inventario.Application.Query.GetOpenedMovimentInventory
 {
     public class GetOpenedMovimentInventoryQuery : IRequestHandler<GetOpenedMovimentInventoryRequest, GetOpenedMovimentInventoryResponse>
     {
-        private IList<MovimentInventoryEntity> input;
         #region Properties
         private ILogger<GetOpenedMovimentInventoryQuery> Logger { get; }
         private IMovementInventoryRepository Repository { get; }
-        private IHttpContextAccessor Context { get; }
         #endregion
 
         #region Constructor
         public GetOpenedMovimentInventoryQuery(
             ILogger<GetOpenedMovimentInventoryQuery> logger,
-            IMovementInventoryRepository repository,
-            IHttpContextAccessor context)
+            IMovementInventoryRepository repository)
         {
             Logger = logger;
             Repository = repository;
-            Context = context;
         }
         #endregion
 
@@ -34,8 +29,7 @@ namespace FJU.Inventario.Application.Query.GetOpenedMovimentInventory
         {
             try
             {
-                var userId = Context.HttpContext.Request.Headers["UserId"];
-                var moviments = await Repository.GetOpenedMovementInventoryAsync(userId);
+                var moviments = await Repository.GetOpenedMovementInventoryAsync(request.UserId);
 
                 if (moviments is null)
                 {

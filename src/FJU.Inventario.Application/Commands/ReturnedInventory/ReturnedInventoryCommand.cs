@@ -39,13 +39,13 @@ namespace FJU.Inventario.Application.Commands.ReturnedInventory
                     await ProductRepository.UpdateAsync(product);
                 }
 
-                foreach (var item in moviment.Products)
+                foreach (var item in moviment.ProductsReturned)
                 {
                     var product = request.Products.Where(x => x.ProductId == item.ProductId).FirstOrDefault();
                     item.AmmountReturned = product.AmmountReturned;
                 }
 
-                if (!moviment.Products.Any(x => x.AmmountReturned < x.AmmountWithdrawal))
+                if (moviment.ProductsReturned.Sum(x => x.AmmountReturned) == moviment.ProductsWithdrawal.Sum(x => x.AmmountWithdrawal))
                 {
                     moviment.IsOpened = false;
                     moviment.Returned = DateTime.UtcNow;
@@ -60,13 +60,6 @@ namespace FJU.Inventario.Application.Commands.ReturnedInventory
                 Logger.LogError(ex.Message, ex);
                 throw;
             }
-        }
-        #endregion
-
-        #region Methods
-        private async Task VerifyProduct(string productId, ReturnedInventoryRequest request)
-        {
-
         }
         #endregion
     }

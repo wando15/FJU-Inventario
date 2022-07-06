@@ -2,7 +2,6 @@
 using FJU.Inventario.Domain.Repositories;
 using FJU.Inventario.Infrastructure.CunstomException;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace FJU.Inventario.Application.Commands.MoveInventory
@@ -13,20 +12,17 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
         private ILogger<MoveInventoryCommand> Logger { get; }
         private IMovementInventoryRepository MovementInventoryRepository { get; }
         private IProductRepository ProductRepository { get; }
-        private IHttpContextAccessor Context { get; }
         #endregion
 
         #region Constructor
         public MoveInventoryCommand(
             ILogger<MoveInventoryCommand> logger,
             IMovementInventoryRepository movementInventoryRepository,
-            IProductRepository productRepository,
-            IHttpContextAccessor context)
+            IProductRepository productRepository)
         {
             Logger = logger;
             MovementInventoryRepository = movementInventoryRepository;
             ProductRepository = productRepository;
-            Context = context;
         }
         #endregion
 
@@ -44,11 +40,15 @@ namespace FJU.Inventario.Application.Commands.MoveInventory
                         throw new NotFoundException("product Not Found");
                     }
 
-                    product.Available = product.Ammount - item.AmmountWithdrawal;
+                    if (item.AmmountWithdrawal > product.Available)
+                    {
+                        throw new UnprocessableEntityException("Quantidade não disponivel");
+                    }
+
+                    product.Available -= item.AmmountWithdrawal;
+                    product.Unavailable = product.Ammount - product.Available;
                     await ProductRepository.UpdateAsync(product);
                 }
-
-                request.UserId = Context.HttpContext.Request.Headers["UserId"];
 
                 var moviment = await MovementInventoryRepository.CreateAsync((MovimentInventoryEntity)request);
 

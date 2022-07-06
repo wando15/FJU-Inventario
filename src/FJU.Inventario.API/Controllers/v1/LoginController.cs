@@ -1,5 +1,6 @@
 using FJU.Inventario.Application.Commands.Login;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -21,6 +22,7 @@ namespace FJU.Inventario.API.Controllers.v1
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(LoginResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

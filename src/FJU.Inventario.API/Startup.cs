@@ -2,6 +2,7 @@
 using FJU.Inventario.CrossCutting.Middleware.Authorization;
 using FJU.Inventario.CrossCutting.Middleware.ExceptionHandler;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace FJU.Inventario.API
 {
@@ -22,7 +23,7 @@ namespace FJU.Inventario.API
             services.AddEndpointsApiExplorer();
             services.AddControllers();
             services.AddOptions();
-            services.AddAuthentication();
+            services.AddTokenConfig(Configuration);
             services.AddAuthorization();
             services.AddVersion();
             services.AddSwagger();
@@ -34,8 +35,10 @@ namespace FJU.Inventario.API
             services.AddCommands();
         }
 
-        public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory logger)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
+            app.UseHttpsRedirection();
+
             app.UseRouting();
             app.UseAuthorization();
             app.UseAuthentication();
@@ -44,17 +47,21 @@ namespace FJU.Inventario.API
             {
             }
 
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "FJU Inventario");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "V1");
                 options.RoutePrefix = string.Empty;
             });
 
             app.UseMiddleware<ErrorHandlerMiddleware>();
-            app.UseMiddleware<VerifyAuthorizationHandler>();
             app.UseApiVersioning();
-            app.UseCors();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

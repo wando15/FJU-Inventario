@@ -5,6 +5,7 @@ using FJU.Inventario.Application.Query.GetClosedMovimentInventoryByProductId;
 using FJU.Inventario.Application.Query.GetOpenedMovimentInventory;
 using FJU.Inventario.Application.Query.GetOpenedMovimentInventoryByProductId;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -13,17 +14,20 @@ namespace FJU.Inventario.API.Controllers.v1
     [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [Authorize]
     public class MoveInventoryController : Controller
     {
         private ILogger<ProductController> Logger { get; }
         private IMediator Mediator { get; }
-        private HttpContextAccessor Context { get; }
+        private IHttpContextAccessor Context { get; }
 
         public MoveInventoryController(ILogger<ProductController> logger,
-            IMediator mediator)
+            IMediator mediator,
+            IHttpContextAccessor context)
         {
             Logger = logger;
             Mediator = mediator;
+            Context = context;
         }
 
         /// <summary>
@@ -38,8 +42,7 @@ namespace FJU.Inventario.API.Controllers.v1
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateMoviment([FromBody] MoveInventoryRequest request, CancellationToken cancellationToken)
         {
-
-            request.UserId = Context.HttpContext.Request.Headers["UserId"].ToString();
+            request.UserId = Context.HttpContext?.Request.Headers["UserId"].ToString();
             Logger.LogInformation($"Send Moviment Inventory:", request);
             var result = await Mediator.Send(request, cancellationToken);
 
@@ -58,8 +61,9 @@ namespace FJU.Inventario.API.Controllers.v1
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetOpenedMoves(CancellationToken cancellationToken)
         {
+            var userId = Context.HttpContext?.Request.Headers["UserId"];
             Logger.LogInformation($"Get Opened Moviment Inventory");
-            var result = await Mediator.Send(new GetOpenedMovimentInventoryRequest(), cancellationToken);
+            var result = await Mediator.Send(new GetOpenedMovimentInventoryRequest(userId), cancellationToken);
 
             return Ok(result);
         }
@@ -76,8 +80,9 @@ namespace FJU.Inventario.API.Controllers.v1
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetClosedMoves(CancellationToken cancellationToken)
         {
+            var userId = Context.HttpContext?.Request.Headers["UserId"];
             Logger.LogInformation($"Get Closed Moviment Inventory");
-            var result = await Mediator.Send(new GetClosedMovimentInventoryRequest(), cancellationToken);
+            var result = await Mediator.Send(new GetClosedMovimentInventoryRequest(userId), cancellationToken);
 
             return Ok(result);
         }
