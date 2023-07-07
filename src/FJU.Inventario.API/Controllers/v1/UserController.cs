@@ -32,7 +32,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Admin,Coordenator")]
+        [Authorize(Roles = "admin,coordenator")]
         [ProducesResponseType(typeof(CreateUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -51,7 +51,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = "Admin,Coordenator")]
+        [Authorize(Roles = "admin,coordenator")]
         [ProducesResponseType(typeof(GetUsersResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -70,7 +70,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin,Coordenator")]
+        [Authorize(Roles = "admin,coordenator")]
         [ProducesResponseType(typeof(GetUserByIdResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,7 +89,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin,Coordenator")]
+        [Authorize(Roles = "admin,coordenator")]
         [ProducesResponseType(typeof(RemoveUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -109,7 +109,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Coordenator")]
+        [Authorize(Roles = "admin,coordenator")]
         [ProducesResponseType(typeof(UpdateUserResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

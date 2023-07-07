@@ -23,8 +23,13 @@ namespace FJU.Inventario.CrossCutting.DependenceInjection
 
             var mongoClient = new MongoClient(config.ConnectionString);
 
+            var connection = mongoClient.StartSessionAsync();
+            services.AddSingleton(connection);
             services.AddSingleton(mongoClient);
-            services.AddSingleton(mongoClient.GetDatabase(config.DatabaseName));
+
+            var database = mongoClient.GetDatabase(config.DatabaseName);
+
+            services.AddSingleton(database);
 
             return services;
         }

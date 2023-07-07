@@ -12,16 +12,18 @@ namespace FJU.Inventario.CrossCutting.DependenceInjection
     {
         public static IServiceCollection AddTokenConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            var config = configuration.GetSection("TokenConfig");
+            var section = configuration.GetSection("TokenConfig");
 
-            if (config == null)
+            if (section == null)
             {
                 throw new NotFoundException("Not found section TokenConfig");
             }
 
-            services.Configure<TokenConfig>(config);
+            services.Configure<TokenConfig>(section);
 
-            var key = Encoding.ASCII.GetBytes(config.GetValue<string>("Secret"));
+            TokenConfig config = section.Get<TokenConfig>();
+
+            var key = Encoding.ASCII.GetBytes(config.Secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

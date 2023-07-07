@@ -32,10 +32,6 @@ namespace FJU.Inventario.Application.Commands.CreateProject
         {
             try
             {
-                if (await Permission.IsAdmin())
-                {
-                    throw new UnprocessableEntityException("User higher hierarchical level required");
-                }
 
                 var existisProject = await ProjectRepository.GetProjectNameAsync(request?.Name);
 

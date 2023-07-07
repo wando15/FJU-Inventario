@@ -32,7 +32,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Admin, Coordenator")]
+        [Authorize(Roles = "admin,coordenator")]
         [ProducesResponseType(typeof(CreateProjectResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,7 +89,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin, Coordenator")]
+        [Authorize(Roles = "admin,coordenator")]
         [ProducesResponseType(typeof(RemoveProjectResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -109,7 +109,7 @@ namespace FJU.Inventario.API.Controllers.v1
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin, Coordenator")]
+        [Authorize(Roles = "admin,coordenator")]
         [ProducesResponseType(typeof(UpdateProjectResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

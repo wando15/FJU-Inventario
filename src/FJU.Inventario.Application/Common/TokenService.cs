@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace FJU.Inventario.Application.Common
 {
@@ -35,7 +36,7 @@ namespace FJU.Inventario.Application.Common
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.NameIdentifier, user.Password),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(ClaimTypes.Role, "user")
                 };
 
@@ -44,7 +45,7 @@ namespace FJU.Inventario.Application.Common
 
                 if (user.IsCoordinator)
                     claims.Add(new Claim(ClaimTypes.Role, "coordenator"));
-                        
+
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(Config.Secret);
                 var tokenDescriptor = new SecurityTokenDescriptor
@@ -57,6 +58,34 @@ namespace FJU.Inventario.Application.Common
                 var token = tokenHandler.CreateToken(tokenDescriptor);
 
                 return Task.FromResult(tokenHandler.WriteToken(token));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                throw;
+            }
+        }
+        public Task<JwtDecoded> DecodedToken(string token)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(Config.Secret);
+                var handler = new JwtSecurityTokenHandler();
+                var validations = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+                var claims = handler.ValidateToken(token, validations, out var tokenSecure);
+
+                var text = tokenSecure.ToString().Substring(tokenSecure.ToString().IndexOf('.')+ 1, (tokenSecure.ToString().Length - tokenSecure.ToString().IndexOf('.')) -1);
+                var jwtJson = JsonSerializer.Deserialize<Jwt>(text);
+
+                return Task.FromResult((JwtDecoded)jwtJson);
+
             }
             catch (Exception ex)
             {

@@ -1,8 +1,6 @@
 ﻿using FJU.Inventario.CrossCutting.DependenceInjection;
-using FJU.Inventario.CrossCutting.Middleware.Authorization;
 using FJU.Inventario.CrossCutting.Middleware.ExceptionHandler;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace FJU.Inventario.API
 {
@@ -26,7 +24,7 @@ namespace FJU.Inventario.API
             services.AddTokenConfig(Configuration);
             services.AddAuthorization();
             services.AddVersion();
-            services.AddSwagger();
+            services.AddSwagger(Configuration);
             services.AddLogging();
             services.AddMongo(Configuration);
             services.AddRepositories();
@@ -40,11 +38,12 @@ namespace FJU.Inventario.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseCors(x => x

@@ -1,31 +1,35 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FJU.Inventario.Infrastructure.Config;
+using FJU.Inventario.Infrastructure.CunstomException;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text;
 
 namespace FJU.Inventario.CrossCutting.DependenceInjection
 {
     public static class SwaggerServiceCollectionExtensions
     {
-        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        public static IServiceCollection AddSwagger(this IServiceCollection services, IConfiguration configuration)
         {
+            var section = configuration.GetSection("AppConfig");
+
+            if (section == null)
+            {
+                throw new NotFoundException("Not found section TokenConfig");
+            }
+
+            services.Configure<AppConfig>(section);
+
+            AppConfig config = section.Get<AppConfig>();
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "ToDo API",
+                    Title = config.AppName,
                     Description = "An ASP.NET Core Web API for managing ToDo items",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Example Contact",
-                        Url = new Uri("https://example.com/contact")
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Example License",
-                        Url = new Uri("https://example.com/license")
-                    }
                 });
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

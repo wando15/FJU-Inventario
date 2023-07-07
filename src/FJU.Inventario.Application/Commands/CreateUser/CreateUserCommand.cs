@@ -33,9 +33,12 @@ namespace FJU.Inventario.Application.Commands.CreateUser
         {
             try
             {
-                if (await Permission.IsAdmin())
+                if (!await Permission.IsAdmin())
                 {
-                    throw new UnprocessableEntityException("User higher hierarchical level required");
+                    if(request.IsAdmin)
+                    {
+                        request.IsAdmin = false;
+                    }
                 }
 
                 var existisUser = await UserRepository.GetUserNameAsync(request?.UserName);

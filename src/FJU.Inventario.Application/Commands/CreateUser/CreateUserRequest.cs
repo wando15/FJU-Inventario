@@ -10,6 +10,7 @@ namespace FJU.Inventario.Application.Commands.CreateUser
         public string? Password { get; set; }
         public string? ProjectId { get; set; }
         public bool IsCoordinator { get; set; }
+        public bool IsAdmin { get; set; }
 
         public static explicit operator UserEntity(CreateUserRequest input)
         {
@@ -20,7 +21,8 @@ namespace FJU.Inventario.Application.Commands.CreateUser
                 Password = input.Password,
                 ProjectId = input.ProjectId,
                 IsCoordinator = input.IsCoordinator,
-                IsActive = true
+                IsActive = true,
+                IsAdmin = input.IsAdmin
             };
         }
     }

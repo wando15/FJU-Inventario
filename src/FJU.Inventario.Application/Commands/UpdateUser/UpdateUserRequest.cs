@@ -15,6 +15,7 @@ namespace FJU.Inventario.Application.Commands.UpdateUser
         public string? ProjectId { get; set; }
         public bool IsCoordinator { get; set; }
         public bool IsActive { get; set; } = true;
+        public bool IsAdmin { get; set; }
 
         public static explicit operator UserEntity(UpdateUserRequest input)
         {
@@ -26,7 +27,8 @@ namespace FJU.Inventario.Application.Commands.UpdateUser
                 Password = input.Password,
                 ProjectId = input.ProjectId,
                 IsCoordinator = input.IsCoordinator,
-                IsActive = input.IsActive
+                IsActive = input.IsActive,
+                IsAdmin = input.IsAdmin
             };
         }
     }

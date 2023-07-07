@@ -32,7 +32,7 @@ namespace FJU.Inventario.Application.Common.ValidatePermision
             {
                 var validateUser = await UserRepository.GetAsync(Context.HttpContext.Request.Headers["UserId"]);
 
-                return !(validateUser is not null && validateUser.IsCoordinator);
+                return validateUser is not null && validateUser.IsCoordinator;
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace FJU.Inventario.Application.Common.ValidatePermision
             {
                 var validateUser = await UserRepository.GetAsync(Context.HttpContext.Request.Headers["UserId"]);
 
-                return !(validateUser is not null && validateUser.IsAdmin);
+                return validateUser is not null && validateUser.IsAdmin;
             }
             catch (Exception ex)
             {
